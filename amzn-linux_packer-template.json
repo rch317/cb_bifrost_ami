@@ -1,0 +1,35 @@
+{
+  "variables": {
+    "vpc": "vpc-0fce5de1b76dc258f",
+    "subnet": "subnet-06fbe49a402616789",
+    "aws_region": "us-east-2",
+    "aws_ami_name": "amazon-linux_{{ timestamp }}"
+  },
+  "builders": [{
+    "name": "Bifrost AMI",
+    "type": "amazon-ebs",
+    "region": "{{user `aws_region`}}",
+    "source_ami_filter": {
+        "filters": {
+            "virtualization-type": "hvm",
+            "name": "amzn-ami*-ebs",
+            "root-device-type": "ebs"
+        },
+        "owners": ["137112412989", "591542846629", "801119661308", "102837901569", "013907871322", "206029621532", "286198878708", "443319210888"],
+        "most_recent": true
+    },
+    "instance_type": "m4.large",
+    "ssh_username": "ec2-user",
+    "ami_name": "amazon-linux_{{ timestamp }}",
+    "tags": {
+      "Name": "amazon-linux_{{ timestamp }}"
+    },
+    "ssh_interface":"private_ip",
+    "ami_description": "Create base AMI image with packer",
+    "associate_public_ip_address": "true",
+    "security_group_ids": ["sg-0962a6ca003e381f2"],
+    "vpc_id": "{{user `vpc`}}",
+    "subnet_id": "{{user `subnet`}}"
+  }]
+}
+
